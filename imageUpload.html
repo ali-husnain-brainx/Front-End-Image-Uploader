@@ -1,0 +1,211 @@
+<html>
+
+<head>
+    <title></title>
+    <style>
+        body {
+            background: whitesmoke;
+            font-family: 'Open Sans', sans-serif;
+        }
+        #imageMain{
+            width: 170px;
+            height: 100px;
+            /* background: black; */
+            margin-top: 50px;
+            margin-left: 25px;
+            display: none;
+            position: relative;
+        }
+        #imageHolder{
+            width: 100px;
+            height: 100px;
+            background: white;
+            display: inline-block;
+            border: 1px solid grey;
+            border-radius: 10%;
+        }
+        #imagePreview{
+            height: 100px;
+            width:100px;
+            border-radius: 10%;
+        }
+        #imagePreviewConatianer{
+            /* height: 200px;
+            margin-top: 25px;
+            background: grey; */
+
+        }
+        #cancelBtn{
+            color: white;
+            position: absolute;
+            top: 45%;
+            left: 65%;
+            cursor: pointer;
+        }
+        #cancelBtn img {
+            height: 25px;
+            width: 25px;
+        }
+        #filePreview{
+            height: 60px;
+            width: 60px;
+            margin-left: 20px;
+            margin-top: 20px;
+        }
+        /** fadeInLeft **/
+
+@-webkit-keyframes fadeInLeft {
+    from {
+        opacity:0;
+        -webkit-transform: translatex(-10px);
+        -moz-transform: translatex(-10px);
+        -o-transform: translatex(-10px);
+        transform: translatex(-10px);
+    }
+    to {
+        opacity:1;
+        -webkit-transform: translatex(0);
+        -moz-transform: translatex(0);
+        -o-transform: translatex(0);
+        transform: translatex(0);
+    }
+}
+@-moz-keyframes fadeInLeft {
+    from {
+        opacity:0;
+        -webkit-transform: translatex(-10px);
+        -moz-transform: translatex(-10px);
+        -o-transform: translatex(-10px);
+        transform: translatex(-10px);
+    }
+    to {
+        opacity:1;
+        -webkit-transform: translatex(0);
+        -moz-transform: translatex(0);
+        -o-transform: translatex(0);
+        transform: translatex(0);
+    }
+}
+
+.imageHolder {
+        position:relative;
+        line-height:2em;
+        overflow:hidden;
+    }
+    .fadingEffect {
+        position:absolute;
+        top:0; bottom:0; right:0;
+        width:100%;
+        background:white;
+        -moz-animation: showHide 5s ease-in; /* Firefox  alternate infinite */ 
+        -webkit-animation: showHide 5s ease-in; /* Safari and Chrome */
+        -ms-animation: showHide 5s ease-in; /* IE10 */
+        -o-animation: showHide 5s ease-in ; /* Opera */
+        animation: showHide 5s ease-in;
+    }
+    @-webkit-keyframes showHide { /* Chrome, Safari */
+        0% {width:100%}
+        100% {width:0%;}
+    }
+    @-moz-keyframes showHide { /* FF */
+        0% {width:100%}
+        100% {width:0%;}
+    }
+    @-ms-keyframes showHide { /* IE10 */
+        0% {width:100%}
+        100% {width:0%;}
+    }
+    @-o-keyframes showHide { /* Opera */
+        0% {width:100%}
+        100% {width:0%;}
+    }
+    @keyframes showHide {
+        0% {width:100%}
+        100% {width:0%;}
+    }
+    </style>
+</head>
+
+<body>
+    <form id="file-upload-form" class="uploader">
+        <input type='file' id="imageUpload" accept=".gif,.jpg,.jpeg,.png,.doc,.docx,.pdf,.xlsx,.pptx,.txt" />
+        <div id="imagePreviewConatianer">
+            <div id="imageMain">
+                <div id="imageHolder">
+                    <img src="" alt="" id="imagePreview">
+                   <!--  <div class="fadingEffect"></div> -->
+                    <img src="" alt="" id="filePreview">
+                </div>
+                <span id="cancelBtn"><img src="cross.svg" alt=""></span>
+            </div>
+        </div>
+    </form>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var filename = input.files[0]['name'];
+                var ext = filename.split('.').pop();
+                //files icons
+                var pdf = "pdf.svg";
+                var doc = "doc.svg";
+                var txt = "txt.svg";
+                var xlsx = "excel.svg";
+                var pptx = "powerpoint.svg";
+                var unknown = "pdf.svg";
+
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $("#imageMain").css('display', 'inline-block');
+                    if (ext == 'gif' || ext == 'jpg' || ext == 'jpeg' || ext == 'png') {
+                        $('#imagePreview').attr("src", e.target.result);
+                        $('#filePreview').hide();
+                        //$('#imagePreview').fadeIn(2000);
+                        $('#imagePreview').show();
+                    } else if (ext == 'pdf') {
+                        $('#imagePreview').hide();
+                        $('#filePreview').show();
+                        $('#filePreview').attr("src", pdf);
+                    } else if (ext == 'doc') {
+                        $('#imagePreview').hide();
+                        $('#filePreview').show();
+                        $('#filePreview').attr("src", doc);
+                    } else if (ext == 'docx') {
+                        $('#imagePreview').hide();
+                        $('#filePreview').show();
+                        $('#filePreview').attr("src", doc);
+                    } else if (ext == 'xlsx') {
+                        $('#imagePreview').hide();
+                        $('#filePreview').show();
+                        $('#filePreview').attr("src", xlsx);
+                    } else if (ext == 'pptx') {
+                        $('#imagePreview').hide();
+                        $('#filePreview').show();
+                        $('#filePreview').attr("src", pptx);
+                    } else if (ext == 'txt') {
+                        $('#imagePreview').hide();
+                        $('#filePreview').show();
+                        $('#filePreview').attr("src", txt);
+                    } else {
+                        $('#imagePreview').hide();
+                        $('#filePreview').show();
+                        $('#filePreview').attr("src", unknown);
+                    }
+
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $("#imageUpload").change(function () {
+            readURL(this);
+        });
+        $("#cancelBtn").click(function () {
+            $('#imagePreview').attr("src", "");
+            document.getElementById("imageUpload").value = "";
+            $("#imageMain").css('display', 'none');
+        });
+    </script>
+
+</body>
+
+</html>
